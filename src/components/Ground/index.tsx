@@ -1,5 +1,3 @@
-import React from "react";
-
 const Ground = () => {
   return (
     <mesh rotation-x={-Math.PI / 2} scale={[100, 100, 1]} receiveShadow>
