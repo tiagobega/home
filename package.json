@@ -14,9 +14,11 @@
     "@react-three/fiber": "^8.13.7",
     "@types/three": "^0.155.0",
     "classnames": "^2.3.2",
+    "gltfjsx": "^6.2.11",
     "leva": "^0.9.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "read-pkg-up": "^10.0.0",
     "three": "^0.155.0"
   },
   "devDependencies": {
