@@ -4,6 +4,9 @@ import { Canvas } from "@react-three/fiber";
 import Scene from "../Scene";
 
 import "./index.scss";
+import LoadingScreen from "../LoadingScreen";
+import HudScreen from "../HudScreen";
+import GuiScreen from "../GuiScreen";
 
 const App = () => {
   return (
@@ -16,6 +19,9 @@ const App = () => {
 
         {/* <axesHelper scale={10} /> */}
       </Canvas>
+      <HudScreen />
+      <GuiScreen />
+      <LoadingScreen />
     </div>
   );
 };

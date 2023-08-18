@@ -4,9 +4,17 @@ import cn from "classnames";
 import "./index.scss";
 
 const LoadingScreen = () => {
-  const { progress } = useProgress();
+  const { progress, active } = useProgress();
 
-  return <div className={cn("LoadingScreen")}>{progress}</div>;
+  return (
+    <div className={cn("LoadingScreen", { loaded: !active })}>
+      <div
+        className="LoadingScreen__ProgressBar"
+        style={{ width: `${progress}%` }}
+      />
+      <div className="LoadingScreen__Progress">{progress}%</div>
+    </div>
+  );
 };
 
 export default LoadingScreen;
