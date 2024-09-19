@@ -1,0 +1,244 @@
+@use 'sass:math';
+@use './colors' as *;
+@use './variables' as *;
+
+@mixin media($media) {
+  @media only screen and #{$media} {
+    @content;
+  }
+}
+
+@function vw($value) {
+  @return #{($value)}vw;
+}
+
+@function vh($value) {
+  @return #{($value)}vh;
+}
+
+@function dvw($value) {
+  @return #{($value)}dvw;
+}
+
+@function dvh($value) {
+  @return #{($value)}dvh;
+}
+
+@function lvw($value) {
+  @return #{($value)}lvw;
+}
+
+@function lvh($value) {
+  @return #{($value)}lvh;
+}
+
+@function svw($value) {
+  @return #{($value)}svw;
+}
+
+@function svh($value) {
+  @return #{($value)}svh;
+}
+
+@function px($value) {
+  @return #{($value)}px;
+}
+
+@function px-to-vw($value) {
+  @return calc(($value * 100vw) / var(--layoutWidth));
+}
+
+@function px-to-vh($value) {
+  @return calc(($value * 100vh) / var(--layoutHeight));
+}
+
+@function percentage($value) {
+  @return $value * 1%;
+}
+
+@function crossm($size, $base, $transformPercentage: false) {
+  $calc: calc(($size * 100) / $base);
+
+  @if $transformPercentage {
+    @return percentage($calc);
+  } @else {
+    @return $calc;
+  }
+}
+
+@function percentage-ar($width, $height, $inverted: false) {
+  @if $inverted {
+    @return percentage(calc($width / $height) * 100);
+  } @else {
+    @return percentage(calc($height / $width) * 100);
+  }
+}
+
+@function type-to-responsive-value($value) {
+  @if type-of($value) == number {
+    @return px-to-vw($value);
+  }
+  @return $value;
+}
+
+@mixin responsive-map($properties) {
+  $finalPropMap: ();
+
+  @each $propertyKey, $propertyValue in $properties {
+    @if type-of($propertyValue) == 'map' {
+      @each $breakpointKey, $breakpointValue in $propertyValue {
+        $mergedSelection: map-merge(
+          map-get($finalPropMap, $breakpointKey) or (),
+          (
+            $propertyKey: map-get($propertyValue, $breakpointKey),
+          )
+        );
+        $finalPropMap: map-merge(
+          $finalPropMap,
+          (
+            $breakpointKey: $mergedSelection,
+          )
+        );
+      }
+    } @else {
+      $mergedSelection: map-merge(
+        map-get($finalPropMap, 'xs') or (),
+        (
+          $propertyKey: $propertyValue,
+        )
+      );
+      $finalPropMap: map-merge(
+        $finalPropMap,
+        (
+          xs: $mergedSelection,
+        )
+      );
+    }
+  }
+
+  @each $breakpoint, $propertyMap in $finalPropMap {
+    $config: map-get($screenConfig, $breakpoint);
+    $configBreakpoint: map-get($config, breakpoint);
+
+    @if $configBreakpoint == null {
+      @each $propertyKey, $propertyValue in $propertyMap {
+        #{$propertyKey}: type-to-responsive-value($propertyValue);
+      }
+    } @else {
+      @include media('(min-width: #{$configBreakpoint}px)') {
+        @each $propertyKey, $propertyValue in $propertyMap {
+          #{$propertyKey}: type-to-responsive-value($propertyValue);
+        }
+      }
+    }
+  }
+}
+
+@mixin withColors($property: color, $className: color) {
+  &--#{$className} {
+    @each $colorName, $color in $colors {
+      &- {
+        &#{#{$colorName}} {
+          #{$property}: $color;
+        }
+      }
+    }
+  }
+}
+
+@mixin withQueries($class, $properties) {
+  &-xs- {
+    &#{$class} {
+      @include deprecated-responsive-map($properties);
+    }
+  }
+  @each $key, $value in $mediaKeys {
+    &-#{$key}- {
+      &#{$class} {
+        $mediaProperties: ();
+
+        @each $propertyKey, $propertyValue in $properties {
+          $mediaProperties: map-merge(
+            $mediaProperties,
+            (
+              $propertyKey: (
+                $key: $propertyValue,
+              ),
+            )
+          );
+        }
+
+        @include deprecated-responsive-map($mediaProperties);
+      }
+    }
+  }
+}
+
+@mixin mapToBreakpoints($property, $variants, $useResponsiveMap: true) {
+  @each $breakpointKey, $breakpointValue in $screenConfig {
+    &-#{$breakpointKey}- {
+      @each $value in $variants {
+        &#{$value} {
+          @if ($useResponsiveMap) {
+            @include responsive-map(
+              (
+                $property: (
+                  $breakpointKey: $value,
+                ),
+              )
+            );
+          } @else {
+            $configBreakpoint: map-get($breakpointValue, breakpoint);
+
+            @if $configBreakpoint == null {
+              #{$property}: $value;
+            } @else {
+              @include media('(min-width: #{$configBreakpoint}px)') {
+                #{$property}: $value;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// @mixin scrollbar($width: px(10), $trackColor: $black, $thumbColor: $white) {
+//   &::-webkit-scrollbar {
+//     background: $trackColor;
+//     width: $width;
+//   }
+
+//   &::-webkit-scrollbar:vertical {
+//     background: $trackColor;
+//     width: $width;
+//   }
+
+//   &::-webkit-scrollbar-track {
+//     background: $trackColor;
+//   }
+
+//   &::-webkit-scrollbar-track:hover {
+//     background: hsl(from $trackColor h s calc(l + 10));
+//   }
+
+//   &::-webkit-scrollbar-thumb {
+//     background: $thumbColor;
+//   }
+//   &::-webkit-scrollbar-thumb:hover {
+//     background: hsl(from $thumbColor h s calc(l - 30));
+//   }
+
+//   &::-moz-scrollbar {
+//     width: $width;
+//   }
+
+//   &::-moz-scrollbar-track {
+//     background: $trackColor;
+//   }
+
+//   &::-moz-scrollbar-thumb {
+//     background: $thumbColor;
+//   }
+// }

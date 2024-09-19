@@ -1,0 +1,72 @@
+// ** Fonts
+$text: 'Sancreek', MedievalSharp, Inter, system-ui, Avenir, Helvetica, Arial,
+  sans-serif;
+
+// ** Screen Sizes
+$screen-mobile: 414;
+$screen-mobile-big: 768;
+$screen-tablet: 1080;
+$screen-tablet-big: 1280;
+$screen-desktop: 1440;
+
+$breakpoint-mobile-big: 576;
+$breakpoint-tablet: 768;
+$breakpoint-tablet-big: 1024;
+$breakpoint-desktop: 1280;
+
+$screenConfig: (
+  xs: (
+    width: $screen-mobile,
+  ),
+  sm: (
+    breakpoint: $breakpoint-mobile-big,
+    width: $screen-mobile-big,
+  ),
+  md: (
+    breakpoint: $breakpoint-tablet,
+    width: $screen-tablet,
+  ),
+  lg: (
+    breakpoint: $breakpoint-tablet-big,
+    width: $screen-tablet-big,
+  ),
+  xl: (
+    breakpoint: $breakpoint-desktop,
+    width: $screen-desktop,
+  ),
+);
+
+// ** MediaQueries
+$sm: '(min-width: #{$breakpoint-mobile-big}px)';
+$md: '(min-width: #{$breakpoint-tablet}px)';
+$lg: '(min-width: #{$breakpoint-tablet-big}px)';
+$xl: '(min-width: #{$breakpoint-desktop}px)';
+
+$to-xs: '(max-width: #{$breakpoint-mobile-big - 0.02}px)';
+$to-sm: '(max-width: #{$breakpoint-tablet - 0.02}px)';
+$to-md: '(max-width: #{$breakpoint-tablet-big - 0.02}px)';
+$to-lg: '(max-width: #{$breakpoint-desktop - 0.02}px)';
+
+$only-xs: '#{$to-xs}';
+$only-sm: '#{$sm} and #{$to-sm}';
+$only-md: '#{$md} and #{$to-md}';
+$only-lg: '#{$lg} and #{$to-lg}';
+$only-xl: '#{$xl}';
+
+$landscape: '(orientation: landscape)';
+$portrait: '(orientation: portrait)';
+
+// ** interpolations
+$ease-out: cubic-bezier(0, 0, 0.33, 1);
+$ease-in: cubic-bezier(0.66, 0, 1, 1);
+$ease-in-out: cubic-bezier(0.66, 0, 0.33, 1);
+
+// ** other
+$padding-x-mobile: 16;
+$padding-y-mobile: 16;
+
+$padding-x-desktop: 64;
+$padding-y-desktop: 64;
+
+$protection-size: 100;
+$header-size: 80;

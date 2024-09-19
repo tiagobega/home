@@ -1,0 +1,37 @@
+.Pointer {
+  position: fixed;
+
+  // border: 2px solid white;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  opacity: 1;
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition: width 300ms $ease-in-out, height 300ms $ease-in-out;
+
+  @include media($to-lg) {
+    display: none;
+  }
+
+  font-size: 32px;
+  transform: scaleX(-1);
+}
+
+// .SubPointer {
+//   position: fixed;
+//   width: 40px;
+//   height: 40px;
+//   border: 2px solid white;
+//   transform: translate(-50%, -50%);
+//   border-radius: 50%;
+//   opacity: 1;
+//   z-index: 9999;
+//   pointer-events: none;
+//   mix-blend-mode: difference;
+//   transition: width 300ms $ease-in-out, height 300ms $ease-in-out;
+
+//   @include media($to-lg) {
+//     display: none;
+//   }
+// }

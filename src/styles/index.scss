@@ -1,0 +1,74 @@
+@import 'reset-css';
+@import 'fonts';
+
+* {
+  outline: none;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+
+  @include media($lg) {
+    cursor: none;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  :root {
+    --layoutWidth: 1280;
+    --layoutHeight: 800;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  :root {
+    --layoutWidth: 800;
+    --layoutHeight: 1280;
+  }
+}
+
+:root {
+  font-family: 'Sancreek', MedievalSharp, Inter, system-ui, Avenir, Helvetica,
+    Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@each $configKey, $configValue in $screenConfig {
+  $breakpoint: map-get($configValue, breakpoint);
+  $width: map-get($configValue, width);
+
+  @if (map-get($configValue, breakpoint) == null) {
+    :root {
+      --layoutWidth: #{$width};
+    }
+  } @else {
+    @include media('(min-width: #{$breakpoint}px)') {
+      :root {
+        --layoutWidth: #{$width};
+      }
+    }
+  }
+}
+
+:root {
+  font-family: $text;
+  font-weight: 400;
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background-color: #000;
+}
