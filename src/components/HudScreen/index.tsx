@@ -18,7 +18,7 @@ const HudScreen = () => {
       </div>
 
       <div className="HudScreen__Email">
-        <h3>contato@theplaza.com</h3>
+        <h3>contato@theplaza.cc</h3>
       </div>
     </div>
   );
